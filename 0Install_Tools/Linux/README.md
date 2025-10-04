@@ -22,7 +22,7 @@
 `mamba install -y -c "nvidia/label/cuda-12.0.0" cuda` # note this should install CUDA 12.0<p>
  - **If you use the `cuda-12.0.0` noted above, then you need to use `gcc=12.1 gcc=12.1 gfortran=12.1` in the command below.**
  - **Install needed packages to build CHARMM and pyCHARMM**<p>
-`mamba install -y -c conda-forge gcc==12.1 gxx==12.1 gfortran==12.1 make cmake binutils fftw openmpi openmm mpi4py sysroot_linux-64==2.17 readline==8.2 rdkit openbabel pandas pytorch jupyter_core jupyter_client jupyterlab jupyterlab_widgets jupyter_server jupyterlab_server jupyter_console jupyter jupytext propka biopython py3dmol mdtraj nglview jsonpickle pymol-open-source`
+`mamba install -y -c conda-forge gcc==12.1 gxx==12.1 gfortran==12.1 make cmake binutils fftw openmpi openmm mpi4py sysroot_linux-64 readline rdkit openbabel pandas pytorch-gpu jupyter jupyter_server propka biopython py3dmol mdtraj nglview jsonpickle pymol-open-source`
 
 <h4><b>Note on nglview and jupyter_server incompatability:</b> If you have problems viewing graphics in the tutorials from 1 and 2, you probably need to downgrade your jupyter_server package. What seems to work with the current nglview is jupyter_server=1.23.6. I suggest installing this in your environment with `mamba install -c conda-forge jupyter_server=1.23.6`</h4>
 
@@ -68,7 +68,7 @@ Specifying that the Driver Version is 525.85.05. Thus, as seen from the table be
 <b>This CUDA version is incompatible with current versions of gcc, but version 10.4 works well so replace "gcc gxx gfortran" with "gcc==10.4 gxx==10.4 gfortran==10.4"
 </div><p>
 
-`mamba install -y -c conda-forge gcc==10.4 gxx==10.4 gfortran==10.4 make cmake binutils fftw openmpi openmm mpi4py sysroot_linux-64==2.17 readline==8.2 rdkit openbabel pandas pytorch jupyter_core jupyter_client jupyterlab jupyterlab_widgets jupyter_server jupyterlab_server jupyter_console jupyter jupytext propka biopython py3dmol mdtraj nglview jsonpickle pymol-open-source`
+`mamba install -y -c conda-forge gcc==10.4 gxx==10.4 gfortran==10.4 make cmake binutils fftw openmpi openmm mpi4py sysroot_linux-64 readline rdkit openbabel pandas pytorch-gpu jupyter_server jupyter  propka biopython py3dmol mdtraj nglview jsonpickle pymol-open-source`
 
 ### 1b. Building the CHARMM/pyCHARMM compatable environment with a YAML file
  
@@ -100,8 +100,8 @@ dependencies:
   - openmpi
   - openmm
   - mpi4py
-  - sysroot_linux-64==2.17
-  - readline==8.2
+  - sysroot_linux-64
+  - readline
   - rdkit
   - openbabel
   - pandas
@@ -144,7 +144,7 @@ cd build_charmm
 # Build CHARMM with BLaDe, FFTDOCK,DOMDEC (-u) and OpenMM (default)
 export FFTW_HOME=$CONDA_PREFIX # bash syntax
 setenv FFTW_HOME $CONDA_PREFIX # csh syntax
-../configure --with-blade --with-fftdock -u  -D nvcc_ptx_target=52 -p <charmm_install_path>
+../configure --with-blade --with-fftdock -u  -D nvcc_ptx_target="52:75" -p <charmm_install_path>
 make -j <n> install
 ```
 
